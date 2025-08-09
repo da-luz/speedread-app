@@ -6,6 +6,7 @@ import { Tabs } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { Icon } from '@/components/ui/IconSymbol';
 
+
 export default function TabLayout() {
     return (
         <Tabs
@@ -24,6 +25,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="index"
                 options={{
+                    title: "Reading",
                     tabBarIcon: ({ color }) => <Icon size={28} name="home" color={color} />,
                 }}
             />
