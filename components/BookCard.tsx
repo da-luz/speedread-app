@@ -1,46 +1,40 @@
 import { StyleSheet, Text, View } from "react-native";
+
 import { Book, BookState } from "@/core/types";
 import { Colors } from "@/constants/Colors";
-import { BookStateLabel } from "./BookStateLabel";
+import { CardAction } from "./CardAction";
+import { StateLabel } from "./StateLabel";
 
 
 export type BookCardProps = {
-    book: Book
+    book: Book,
+    cardType: "action" | "list",
 }
 
-export function BookCard({ book }: BookCardProps) {
+export function BookCard({ book, cardType }: BookCardProps) {
+    const componentMap = {
+        action: <CardAction target={BookState.READING} cardId={book.id} />,
+        list: <StateLabel state={book.state} />,
+    }
+
     return (
         <View style={[ styles.card ]}>
             <Text style={[ styles.bookTitle ]}>{book.name}</Text>
-            <BookStateLabel state={book.state} target="stop" />
+            {componentMap[cardType]}
         </View>
     );
 };
 
+
 const styles = StyleSheet.create({
     card: {
         backgroundColor: Colors['light'].beige,
-        padding: 20,
         flexDirection: "row",
+        padding: 20,
     },
     bookTitle: {
         color: Colors['light'].brown,
         fontWeight: "bold",
         fontSize: 24,
-    },
-    bookStatus: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: Colors['light'].white,
-        padding: 10,
-    },
-    bookShelved: {
-        backgroundColor: Colors['light'].mustard
-    },
-    bookReading: {
-        backgroundColor: Colors['light'].green
-    },
-    bookFinished: {
-        backgroundColor: Colors['light'].teal
     },
 });

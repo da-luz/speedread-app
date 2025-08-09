@@ -5,7 +5,7 @@ import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
-    const book = new Book(1, 1, "Qualquer", BookState.READING);
+    const book = new Book(1, 1, "Qualquer", BookState.FINISHED);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -16,7 +16,7 @@ export default function Index() {
                     alignItems: "center",
                 }}
             >
-                <BookCard book={book} />
+                <BookCard book={book} cardType="list"/>
             </View>
         </SafeAreaView>
     );
