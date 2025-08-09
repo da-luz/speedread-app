@@ -1,29 +1,23 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useEffect } from "react";
+import { Appearance, StatusBar } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Stack } from "expo-router";
+import { setButtonStyleAsync } from "expo-navigation-bar";
+
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    const colorScheme = Appearance.getColorScheme() ?? 'light';
+    const statusBarStyle = colorScheme !== 'dark' ? 'light-content' : 'dark-content';
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
+    useEffect(() => {
+        setButtonStyleAsync(colorScheme !== 'dark' ? 'light' : 'dark');
+    }, []);
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    return (
+        <SafeAreaProvider>
+            <StatusBar barStyle={statusBarStyle} />
+            <Stack />
+        </SafeAreaProvider>
+    );
 }
